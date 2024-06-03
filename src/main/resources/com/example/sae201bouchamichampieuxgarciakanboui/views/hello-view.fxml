@@ -1,82 +1,251 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<?import javafx.scene.image.Image?>
-<GridPane fx:id="chessBoard" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sae201bouchamichampieuxgarciakanboui.HelloController" stylesheets="/chessCSS.css">
-  <!-- Define column constraints to make sure each column has equal width -->
-  <columnConstraints>
-    <ColumnConstraints percentWidth="12.5"/>
-    <ColumnConstraints percentWidth="12.5"/>
-    <ColumnConstraints percentWidth="12.5"/>
-    <ColumnConstraints percentWidth="12.5"/>
-    <ColumnConstraints percentWidth="12.5"/>
-    <ColumnConstraints percentWidth="12.5"/>
-    <ColumnConstraints percentWidth="12.5"/>
-    <ColumnConstraints percentWidth="12.5"/>
-  </columnConstraints>
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sae201bouchamichampieuxgarciakanboui.HelloController" stylesheets="/chessCSS.css">
+  <top>
+    <HBox spacing="10" styleClass="top-bar">
+      <Label text="Adversaire" styleClass="player-label" />
+      <Label text="10:00" styleClass="time-label" />
+    </HBox>
+  </top>
+  <center>
+    <GridPane styleClass="chess-board">
+      <!-- Chess Board Grid -->
 
-  <!-- Define row constraints to make sure each row has equal height -->
-  <rowConstraints>
-    <RowConstraints percentHeight="12.5"/>
-    <RowConstraints percentHeight="12.5"/>
-    <RowConstraints percentHeight="12.5"/>
-    <RowConstraints percentHeight="12.5"/>
-    <RowConstraints percentHeight="12.5"/>
-    <RowConstraints percentHeight="12.5"/>
-    <RowConstraints percentHeight="12.5"/>
-    <RowConstraints percentHeight="12.5"/>
-  </rowConstraints>
-
-  <!-- Place pieces on the board -->
-  <!-- Black pieces -->
-
-  <ImageView fx:id="blackRook1" GridPane.rowIndex="0" GridPane.columnIndex="0" >
+      <!-- Board Cells with Pieces -->
+      <!-- Row 0 -->
+      <Pane GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/noir/Tournoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/noir/Cavaliernoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="green-cell">
+        <ImageView>
           <Image url="@../img/noir/Founoir.png" />
-  </ImageView>
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="0" GridPane.columnIndex="3" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/noir/Reinenoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="0" GridPane.columnIndex="4" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/noir/Roinoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="0" GridPane.columnIndex="5" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/noir/Founoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="0" GridPane.columnIndex="6" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/noir/Cavaliernoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="0" GridPane.columnIndex="7" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/noir/Tournoir.png" />
+        </ImageView>
+      </Pane>
 
-    <ImageView fx:id="blackKnight1" GridPane.rowIndex="0" GridPane.columnIndex="1" image="img/noir/Cavaliernoir.png"/>
-  <!--  <ImageView fx:id="blackBishop1" GridPane.rowIndex="0" GridPane.columnIndex="2" image="img/noir/Founoir.png"/>
-    <ImageView fx:id="blackQueen" GridPane.rowIndex="0" GridPane.columnIndex="3" image="img/noir/Reinenoir.png"/>
-    <ImageView fx:id="blackKing" GridPane.rowIndex="0" GridPane.columnIndex="4" image="img/noir/Roinoir.png"/>
-    <ImageView fx:id="blackBishop2" GridPane.rowIndex="0" GridPane.columnIndex="5" image="img/noir/Founoir.png"/>
-    <ImageView fx:id="blackKnight2" GridPane.rowIndex="0" GridPane.columnIndex="6" image="img/noir/Cavaliernoir.png"/>
-    <ImageView fx:id="blackRook2" GridPane.rowIndex="0" GridPane.columnIndex="7" image="img/noir/Tournoir.png"/>
-    -->
-  <!-- Black pawns -->
-  <!--
-  <ImageView fx:id="blackPawn1" GridPane.rowIndex="1" GridPane.columnIndex="0" image="img/noir/Pionnoir.png"/>
-  <ImageView fx:id="blackPawn2" GridPane.rowIndex="1" GridPane.columnIndex="1" image="img/noir/Pionnoir.png"/>
-  <ImageView fx:id="blackPawn3" GridPane.rowIndex="1" GridPane.columnIndex="2" image="img/noir/Pionnoir.png"/>
-  <ImageView fx:id="blackPawn4" GridPane.rowIndex="1" GridPane.columnIndex="3" image="img/noir/Pionnoir.png"/>
-  <ImageView fx:id="blackPawn5" GridPane.rowIndex="1" GridPane.columnIndex="4" image="img/noir/Pionnoir.png"/>
-  <ImageView fx:id="blackPawn6" GridPane.rowIndex="1" GridPane.columnIndex="5" image="img/noir/Pionnoir.png"/>
-  <ImageView fx:id="blackPawn7" GridPane.rowIndex="1" GridPane.columnIndex="6" image="img/noir/Pionnoir.png"/>
-  <ImageView fx:id="blackPawn8" GridPane.rowIndex="1" GridPane.columnIndex="7" image="img/noir/Pionnoir.png"/>
--->
-  <!-- White pieces -->
-  <!--
-  <ImageView fx:id="whiteRook1" GridPane.rowIndex="7" GridPane.columnIndex="0" image="img/blanc/Tourblanc.png"/>
-  <ImageView fx:id="whiteKnight1" GridPane.rowIndex="7" GridPane.columnIndex="1" image="img/blanc/Cavalierblanc.png"/>
-  <ImageView fx:id="whiteBishop1" GridPane.rowIndex="7" GridPane.columnIndex="2" image="@/img/blanc/Foublanc.png"/>
-  <ImageView fx:id="whiteQueen" GridPane.rowIndex="7" GridPane.columnIndex="3" image="@/img/blanc/Reineblanc.png"/>
-  <ImageView fx:id="whiteKing" GridPane.rowIndex="7" GridPane.columnIndex="4" image="@/img/blanc/Roiblanc.png"/>
-  <ImageView fx:id="whiteBishop2" GridPane.rowIndex="7" GridPane.columnIndex="5" image="@/img/blanc/Foublanc.png"/>
-  <ImageView fx:id="whiteKnight2" GridPane.rowIndex="7" GridPane.columnIndex="6" image="@/img/blanc/Cavalierblanc.png"/>
-  <ImageView fx:id="whiteRook2" GridPane.rowIndex="7" GridPane.columnIndex="7" image="@/img/blanc/Tourblanc.png"/>
-  -->
-  <!-- White pawns -->
-  <!--
-  <ImageView fx:id="whitePawn1" GridPane.rowIndex="6" GridPane.columnIndex="0" image="@/img/blanc/Pionblanc.png"/>
-  <ImageView fx:id="whitePawn2" GridPane.rowIndex="6" GridPane.columnIndex="1" image="@/img/blanc/Pionblanc.png"/>
-  <ImageView fx:id="whitePawn3" GridPane.rowIndex="6" GridPane.columnIndex="2" image="@/img/blanc/Pionblanc.png"/>
-  <ImageView fx:id="whitePawn4" GridPane.rowIndex="6" GridPane.columnIndex="3" image="@/img/blanc/Pionblanc.png"/>
-  <ImageView fx:id="whitePawn5" GridPane.rowIndex="6" GridPane.columnIndex="4" image="@/img/blanc/Pionblanc.png"/>
-  <ImageView fx:id="whitePawn6" GridPane.rowIndex="6" GridPane.columnIndex="5" image="@/img/blanc/Pionblanc.png"/>
-  <ImageView fx:id="whitePawn7" GridPane.rowIndex="6" GridPane.columnIndex="6" image="@/img/blanc/Pionblanc.png"/>
-  <ImageView fx:id="whitePawn8" GridPane.rowIndex="6" GridPane.columnIndex="7" image="@/img/blanc/Pionblanc.png"/>
-  -->
-</GridPane>
+      <!-- Row 1 (Black Pawns) -->
+      <Pane GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/noir/Pionnoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/noir/Pionnoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="1" GridPane.columnIndex="2" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/noir/Pionnoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="1" GridPane.columnIndex="3" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/noir/Pionnoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="1" GridPane.columnIndex="4" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/noir/Pionnoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="1" GridPane.columnIndex="5" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/noir/Pionnoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="1" GridPane.columnIndex="6" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/noir/Pionnoir.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="1" GridPane.columnIndex="7" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/noir/Pionnoir.png" />
+        </ImageView>
+      </Pane>
+
+      <!-- Empty Cells Rows 2-->
+      <Pane GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="2" GridPane.columnIndex="2" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="2" GridPane.columnIndex="3" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="2" GridPane.columnIndex="4" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="2" GridPane.columnIndex="5" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="2" GridPane.columnIndex="6" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="2" GridPane.columnIndex="7" styleClass="white-cell" />
+
+      <!-- Empty Cells Rows 3-->
+      <Pane GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="3" GridPane.columnIndex="2" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="3" GridPane.columnIndex="3" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="3" GridPane.columnIndex="4" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="3" GridPane.columnIndex="5" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="3" GridPane.columnIndex="6" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="3" GridPane.columnIndex="7" styleClass="white-cell" />
+
+      <!-- Empty Cells Rows 4-->
+      <Pane GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="4" GridPane.columnIndex="2" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="4" GridPane.columnIndex="3" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="4" GridPane.columnIndex="4" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="4" GridPane.columnIndex="5" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="4" GridPane.columnIndex="6" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="4" GridPane.columnIndex="7" styleClass="white-cell" />
+
+
+      <!-- Empty Cells Rows 5-->
+      <Pane GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="5" GridPane.columnIndex="2" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="5" GridPane.columnIndex="3" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="5" GridPane.columnIndex="4" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="5" GridPane.columnIndex="5" styleClass="white-cell" />
+      <Pane GridPane.rowIndex="5" GridPane.columnIndex="6" styleClass="green-cell" />
+      <Pane GridPane.rowIndex="5" GridPane.columnIndex="7" styleClass="white-cell" />
+
+
+      <!-- Row 6 (White Pawns) -->
+      <Pane GridPane.rowIndex="6" GridPane.columnIndex="0" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Pionblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Pionblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="6" GridPane.columnIndex="2" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Pionblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="6" GridPane.columnIndex="3" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Pionblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="6" GridPane.columnIndex="4" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Pionblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="6" GridPane.columnIndex="5" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Pionblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="6" GridPane.columnIndex="6" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Pionblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="6" GridPane.columnIndex="7" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Pionblanc.png" />
+        </ImageView>
+      </Pane>
+
+      <!-- Row 7 -->
+      <Pane GridPane.rowIndex="7" GridPane.columnIndex="0" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Tourblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="7" GridPane.columnIndex="1" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Cavalierblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="7" GridPane.columnIndex="2" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Foublanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="7" GridPane.columnIndex="3" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Reineblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="7" GridPane.columnIndex="4" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Roiblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="7" GridPane.columnIndex="5" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Foublanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="7" GridPane.columnIndex="6" styleClass="white-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Cavalierblanc.png" />
+        </ImageView>
+      </Pane>
+      <Pane GridPane.rowIndex="7" GridPane.columnIndex="7" styleClass="green-cell">
+        <ImageView>
+          <Image url="@../img/blanc/Tourblanc.png" />
+        </ImageView>
+      </Pane>
+    </GridPane>
+  </center>
+  <right>
+    <VBox spacing="10" styleClass="right-panel">
+      <Button text="Jouer" styleClass="play-button"/>
+      <Button text="Tournois" styleClass="tournament-button"/>
+    </VBox>
+  </right>
+  <bottom>
+    <HBox spacing="10" styleClass="bottom-bar">
+      <Label text="Guest2638305585 (400)" styleClass="player-label" />
+      <Label text="10:00" styleClass="time-label" />
+    </HBox>
+  </bottom>
+</BorderPane>
