@@ -24,17 +24,17 @@
 
 .green-cell {
     -fx-background-color: #769656; /* Green */
-    -fx-pref-width: 64px; /* Adjust this based on your grid size */
-    -fx-pref-height: 64px; /* Adjust this based on your grid size */
+    -fx-pref-width: 48px; /* Adjust this based on your grid size */
+    -fx-pref-height: 48px; /* Adjust this based on your grid size */
+    -fx-alignment: Center;
 }
 
 .white-cell {
     -fx-background-color: #eeeed2; /* White */
     -fx-pref-width: 64px; /* Adjust this based on your grid size */
     -fx-pref-height: 64px; /* Adjust this based on your grid size */
+    -fx-alignment: Center;
 }
-
-
 
 .chess-piece {
     -fx-font-size: 36px;
@@ -67,4 +67,3 @@
     -fx-font-size: 16px;
     -fx-padding: 10 20;
 }
-
