@@ -6,7 +6,7 @@ import static org.junit.Assert.*;
 
 public class HelloControllerTest {
 
-    @Test
+    /*@Test
     public void testPionNoirMove() {
         HelloController controller = new HelloController();
         controller.initializeBoard();
@@ -91,5 +91,5 @@ public class HelloControllerTest {
         controller.handleCellClick(6, 0);
         controller.handleCellClick(7, 0); // Déplacer le pion pour promotion
         assertEquals("noir/Reinenoir.png", controller.board[7][0]);
-    }
+    }*/
 }

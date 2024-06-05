@@ -9,6 +9,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class HelloController {
 
@@ -31,10 +36,11 @@ public class HelloController {
     private GridPane chessBoard;
 
     private VBox[][] boardCells = new VBox[8][8];
-    String[][] board = new String[8][8];
+    private String[][] board = new String[8][8];
     private ImageView selectedPiece = null;
     private int selectedRow = -1;
     private int selectedCol = -1;
+    private List<Circle> moveIndicators = new ArrayList<>();
 
     private boolean whiteKingMoved = false;
     private boolean blackKingMoved = false;
@@ -48,7 +54,7 @@ public class HelloController {
         setupEventHandlers();
     }
 
-    void initializeBoard() {
+    private void initializeBoard() {
         // Initialiser les pièces noires
         board[0][0] = "noir/Tournoir.png";
         board[0][1] = "noir/Cavaliernoir.png";
@@ -102,14 +108,16 @@ public class HelloController {
         }
     }
 
-    void handleCellClick(int row, int col) {
+    private void handleCellClick(int row, int col) {
         if (selectedPiece == null) {
             if (board[row][col] != null) {
                 selectedPiece = (ImageView) boardCells[row][col].getChildren().get(0);
                 selectedRow = row;
                 selectedCol = col;
+                showPossibleMoves(selectedRow, selectedCol);
             }
         } else {
+            clearMoveIndicators();
             if (isValidMove(selectedRow, selectedCol, row, col)) {
                 // Gestion des roques
                 if (board[selectedRow][selectedCol].equals("blanc/Roiblanc.png")) {
@@ -163,6 +171,10 @@ public class HelloController {
 
                 // Déplacement de la pièce
                 boardCells[selectedRow][selectedCol].getChildren().clear();
+                if (board[row][col] != null) {
+                    // Enlève la pièce capturée
+                    boardCells[row][col].getChildren().clear();
+                }
                 boardCells[row][col].getChildren().add(selectedPiece);
 
                 board[row][col] = board[selectedRow][selectedCol];
@@ -173,25 +185,30 @@ public class HelloController {
                 selectedCol = -1;
             } else {
                 showError("Mouvement invalide !");
+                selectedPiece = null;
+                selectedRow = -1;
+                selectedCol = -1;
             }
         }
     }
 
     private boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
         String piece = board[fromRow][fromCol];
-        String targetPiece = board[toRow][toCol];
+        String destinationPiece = board[toRow][toCol];
 
-        // Empêcher les pièces blanches de se déplacer sur d'autres pièces blanches et les pièces noires sur d'autres pièces noires
-        if ((piece.startsWith("blanc") && targetPiece != null && targetPiece.startsWith("blanc")) ||
-                (piece.startsWith("noir") && targetPiece != null && targetPiece.startsWith("noir"))) {
-            return false;
+        // Vérifier si la pièce destination est de la même couleur
+        if (destinationPiece != null) {
+            if ((piece.startsWith("blanc") && destinationPiece.startsWith("blanc")) ||
+                    (piece.startsWith("noir") && destinationPiece.startsWith("noir"))) {
+                return false;
+            }
         }
 
         switch (piece) {
             case "noir/Pionnoir.png":
-                return isValidMovePionNoir(fromRow, fromCol, toRow, toCol);
+                return isValidMovePionNoir(fromRow, fromCol, toRow, toCol, destinationPiece);
             case "blanc/Pionblanc.png":
-                return isValidMovePionBlanc(fromRow, fromCol, toRow, toCol);
+                return isValidMovePionBlanc(fromRow, fromCol, toRow, toCol, destinationPiece);
             case "noir/Cavaliernoir.png":
             case "blanc/Cavalierblanc.png":
                 return isValidMoveCavalier(fromRow, fromCol, toRow, toCol);
@@ -212,41 +229,74 @@ public class HelloController {
         }
     }
 
-    boolean isValidMovePionNoir(int fromRow, int fromCol, int toRow, int toCol) {
-        if (fromRow == 1) { // Mouvement initial de deux cases pour un pion
-            return (toRow == fromRow + 1 || toRow == fromRow + 2) && fromCol == toCol && board[toRow][toCol] == null;
+    private boolean isValidMovePionNoir(int fromRow, int fromCol, int toRow, int toCol, String destinationPiece) {
+        if (destinationPiece == null) {
+            if (fromRow == 1) { // Mouvement initial de deux cases pour un pion
+                return (toRow == fromRow + 1 || toRow == fromRow + 2) && fromCol == toCol && board[toRow][toCol] == null;
+            } else {
+                return toRow == fromRow + 1 && fromCol == toCol && board[toRow][toCol] == null;
+            }
         } else {
-            return toRow == fromRow + 1 && fromCol == toCol && board[toRow][toCol] == null;
+            return toRow == fromRow + 1 && Math.abs(fromCol - toCol) == 1 && destinationPiece.startsWith("blanc");
         }
     }
 
-    boolean isValidMovePionBlanc(int fromRow, int fromCol, int toRow, int toCol) {
-        if (fromRow == 6) { // Mouvement initial de deux cases pour un pion
-            return (toRow == fromRow - 1 || toRow == fromRow - 2) && fromCol == toCol && board[toRow][toCol] == null;
+    private boolean isValidMovePionBlanc(int fromRow, int fromCol, int toRow, int toCol, String destinationPiece) {
+        if (destinationPiece == null) {
+            if (fromRow == 6) { // Mouvement initial de deux cases pour un pion
+                return (toRow == fromRow - 1 || toRow == fromRow - 2) && fromCol == toCol && board[toRow][toCol] == null;
+            } else {
+                return toRow == fromRow - 1 && fromCol == toCol && board[toRow][toCol] == null;
+            }
         } else {
-            return toRow == fromRow - 1 && fromCol == toCol && board[toRow][toCol] == null;
+            return toRow == fromRow - 1 && Math.abs(fromCol - toCol) == 1 && destinationPiece.startsWith("noir");
         }
     }
 
-    boolean isValidMoveCavalier(int fromRow, int fromCol, int toRow, int toCol) {
+    private boolean isValidMoveCavalier(int fromRow, int fromCol, int toRow, int toCol) {
         int rowDiff = Math.abs(fromRow - toRow);
         int colDiff = Math.abs(fromCol - toCol);
         return (rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2);
     }
 
-    boolean isValidMoveTour(int fromRow, int fromCol, int toRow, int toCol) {
-        return fromRow == toRow || fromCol == toCol;
+    private boolean isValidMoveTour(int fromRow, int fromCol, int toRow, int toCol) {
+        if (fromRow != toRow && fromCol != toCol) {
+            return false;
+        }
+        int rowDiff = Math.abs(fromRow - toRow);
+        int colDiff = Math.abs(fromCol - toCol);
+        int rowStep = (toRow - fromRow) / Math.max(1, rowDiff);
+        int colStep = (toCol - fromCol) / Math.max(1, colDiff);
+
+        for (int i = 1; i < Math.max(rowDiff, colDiff); i++) {
+            if (board[fromRow + i * rowStep][fromCol + i * colStep] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    boolean isValidMoveFou(int fromRow, int fromCol, int toRow, int toCol) {
-        return Math.abs(fromRow - toRow) == Math.abs(fromCol - toCol);
+    private boolean isValidMoveFou(int fromRow, int fromCol, int toRow, int toCol) {
+        if (Math.abs(fromRow - toRow) != Math.abs(fromCol - toCol)) {
+            return false;
+        }
+        int rowDiff = Math.abs(fromRow - toRow);
+        int rowStep = (toRow - fromRow) / rowDiff;
+        int colStep = (toCol - fromCol) / rowDiff;
+
+        for (int i = 1; i < rowDiff; i++) {
+            if (board[fromRow + i * rowStep][fromCol + i * colStep] != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    boolean isValidMoveReine(int fromRow, int fromCol, int toRow, int toCol) {
+    private boolean isValidMoveReine(int fromRow, int fromCol, int toRow, int toCol) {
         return isValidMoveTour(fromRow, fromCol, toRow, toCol) || isValidMoveFou(fromRow, fromCol, toRow, toCol);
     }
 
-    boolean isValidMoveRoi(int fromRow, int fromCol, int toRow, int toCol) {
+    private boolean isValidMoveRoi(int fromRow, int fromCol, int toRow, int toCol) {
         int rowDiff = Math.abs(fromRow - toRow);
         int colDiff = Math.abs(fromCol - toCol);
         if (rowDiff <= 1 && colDiff <= 1) {
@@ -271,6 +321,26 @@ public class HelloController {
             }
         }
         return false;
+    }
+
+    private void showPossibleMoves(int fromRow, int fromCol) {
+        String piece = board[fromRow][fromCol];
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (isValidMove(fromRow, fromCol, row, col)) {
+                    Circle circle = new Circle(15, Color.LIGHTGRAY);
+                    boardCells[row][col].getChildren().add(circle);
+                    moveIndicators.add(circle);
+                }
+            }
+        }
+    }
+
+    private void clearMoveIndicators() {
+        for (Circle circle : moveIndicators) {
+            ((VBox) circle.getParent()).getChildren().remove(circle);
+        }
+        moveIndicators.clear();
     }
 
     private void showError(String message) {
