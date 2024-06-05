@@ -24,16 +24,16 @@
 
 .green-cell {
     -fx-background-color: #769656; /* Green */
-    -fx-pref-width: 48px; /* Adjust this based on your grid size */
-    -fx-pref-height: 48px; /* Adjust this based on your grid size */
-    -fx-alignment: Center;
+    -fx-pref-width: 120px; /* Adjust this based on your grid size */
+    -fx-pref-height: 120px; /* Adjust this based on your grid size */
+    -fx-alignment: center;
 }
 
 .white-cell {
     -fx-background-color: #eeeed2; /* White */
-    -fx-pref-width: 64px; /* Adjust this based on your grid size */
-    -fx-pref-height: 64px; /* Adjust this based on your grid size */
-    -fx-alignment: Center;
+    -fx-pref-width: 120px; /* Adjust this based on your grid size */
+    -fx-pref-height: 120px; /* Adjust this based on your grid size */
+    -fx-alignment: center;
 }
 
 .chess-piece {
@@ -58,7 +58,7 @@
 }
 
 .play-button, .tournament-button {
-    -fx-background-color: #8BC34A;
+    -fx-background-color: #4CAF50;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 24px;
@@ -69,9 +69,14 @@
     -fx-alignment: center;
 }
 
+.tournament-box {
+    -fx-background-color: #1f1d1c;
+    -fx-alignment: center;
+}
+
 .tournament-button {
-    -fx-background-color: #000000;
-    -fx-text-fill: #8BC34A;
+    -fx-background-color: #1f1d1c;
+    -fx-text-fill: #dcdbdc;
     -fx-font-size: 24px;
     -fx-padding: 10 20;
 }
@@ -96,8 +101,8 @@
     -fx-font-weight: bold;
 }
 
-.time-button {
-    -fx-background-color: #333333;
+.menu-button {
+    -fx-background-color: #8BC34A;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-font-size: 24px;
@@ -105,16 +110,18 @@
     -fx-padding: 10 20;
     -fx-border-radius: 5;
     -fx-background-radius: 5;
-    -fx-alignment: center-left;
+    -fx-alignment: center;
 }
 
-.menu-button-arrow {
-    -fx-background-color: transparent;
-    -fx-padding: 0;
-    -fx-shape: "M 0 0 L 4 4 L 8 0 Z";
-    -fx-scale-x: 2;
-    -fx-scale-y: 2;
-    -fx-translate-y: -2;
+.menu-button .menu-item {
+    -fx-background-color: #446b15;
+    -fx-text-fill: #ffffff;
+    -fx-padding: 10;
+    -fx-font-size: 16px; /* Adjust the font size if needed */
+}
+
+.menu-button .menu-item:hover {
+    -fx-background-color: #a9ee5d;
 }
 
 

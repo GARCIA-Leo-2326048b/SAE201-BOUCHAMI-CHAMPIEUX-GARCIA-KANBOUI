@@ -23,7 +23,7 @@
     </HBox>
   </top>
   <center>
-    <GridPane styleClass="chess-board">
+    <GridPane fx:id="chessBoard" styleClass="chess-board">
       <!-- Chess Board Grid -->
       <!-- Column and Row Constraints -->
       <columnConstraints>
@@ -49,222 +49,126 @@
 
       <!-- Board Cells with Pieces -->
       <!-- Row 0 -->
-      <VBox GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Tournoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="0" GridPane.columnIndex="0" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Cavaliernoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="0" GridPane.columnIndex="1" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Founoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="0" GridPane.columnIndex="2" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="0" GridPane.columnIndex="3" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Reinenoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="0" GridPane.columnIndex="3" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="0" GridPane.columnIndex="4" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Roinoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="0" GridPane.columnIndex="4" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="0" GridPane.columnIndex="5" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Founoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="0" GridPane.columnIndex="5" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="0" GridPane.columnIndex="6" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Cavaliernoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="0" GridPane.columnIndex="6" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="0" GridPane.columnIndex="7" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Tournoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="0" GridPane.columnIndex="7" styleClass="green-cell">
       </VBox>
 
       <!-- Row 1 (Black Pawns) -->
-      <VBox GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Pionnoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="1" GridPane.columnIndex="0" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Pionnoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="1" GridPane.columnIndex="1" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="1" GridPane.columnIndex="2" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Pionnoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="1" GridPane.columnIndex="2" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="1" GridPane.columnIndex="3" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Pionnoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="1" GridPane.columnIndex="3" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="1" GridPane.columnIndex="4" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Pionnoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="1" GridPane.columnIndex="4" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="1" GridPane.columnIndex="5" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Pionnoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="1" GridPane.columnIndex="5" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="1" GridPane.columnIndex="6" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Pionnoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="1" GridPane.columnIndex="6" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="1" GridPane.columnIndex="7" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/noir/Pionnoir.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="1" GridPane.columnIndex="7" styleClass="white-cell">
       </VBox>
 
       <!-- Empty Cells Rows 2-->
-      <VBox GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="2" GridPane.columnIndex="2" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="2" GridPane.columnIndex="3" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="2" GridPane.columnIndex="4" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="2" GridPane.columnIndex="5" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="2" GridPane.columnIndex="6" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="2" GridPane.columnIndex="7" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="2" GridPane.columnIndex="2" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="2" GridPane.columnIndex="3" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="2" GridPane.columnIndex="4" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="2" GridPane.columnIndex="5" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="2" GridPane.columnIndex="6" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="2" GridPane.columnIndex="7" styleClass="green-cell" />
 
       <!-- Empty Cells Rows 3-->
-      <VBox GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="3" GridPane.columnIndex="2" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="3" GridPane.columnIndex="3" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="3" GridPane.columnIndex="4" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="3" GridPane.columnIndex="5" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="3" GridPane.columnIndex="6" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="3" GridPane.columnIndex="7" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="3" GridPane.columnIndex="2" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="3" GridPane.columnIndex="3" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="3" GridPane.columnIndex="4" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="3" GridPane.columnIndex="5" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="3" GridPane.columnIndex="6" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="3" GridPane.columnIndex="7" styleClass="white-cell" />
 
       <!-- Empty Cells Rows 4-->
-      <VBox GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="4" GridPane.columnIndex="2" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="4" GridPane.columnIndex="3" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="4" GridPane.columnIndex="4" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="4" GridPane.columnIndex="5" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="4" GridPane.columnIndex="6" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="4" GridPane.columnIndex="7" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="4" GridPane.columnIndex="2" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="4" GridPane.columnIndex="3" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="4" GridPane.columnIndex="4" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="4" GridPane.columnIndex="5" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="4" GridPane.columnIndex="6" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="4" GridPane.columnIndex="7" styleClass="green-cell" />
 
       <!-- Empty Cells Rows 5-->
-      <VBox GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="5" GridPane.columnIndex="2" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="5" GridPane.columnIndex="3" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="5" GridPane.columnIndex="4" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="5" GridPane.columnIndex="5" styleClass="green-cell" />
-      <VBox GridPane.rowIndex="5" GridPane.columnIndex="6" styleClass="white-cell" />
-      <VBox GridPane.rowIndex="5" GridPane.columnIndex="7" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="5" GridPane.columnIndex="2" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="5" GridPane.columnIndex="3" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="5" GridPane.columnIndex="4" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="5" GridPane.columnIndex="5" styleClass="white-cell" />
+      <VBox GridPane.rowIndex="5" GridPane.columnIndex="6" styleClass="green-cell" />
+      <VBox GridPane.rowIndex="5" GridPane.columnIndex="7" styleClass="white-cell" />
 
       <!-- Row 6 (White Pawns) -->
-      <VBox GridPane.rowIndex="6" GridPane.columnIndex="0" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Pionblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="6" GridPane.columnIndex="0" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Pionblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="6" GridPane.columnIndex="2" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Pionblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="6" GridPane.columnIndex="2" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="6" GridPane.columnIndex="3" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Pionblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="6" GridPane.columnIndex="3" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="6" GridPane.columnIndex="4" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Pionblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="6" GridPane.columnIndex="4" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="6" GridPane.columnIndex="5" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Pionblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="6" GridPane.columnIndex="5" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="6" GridPane.columnIndex="6" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Pionblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="6" GridPane.columnIndex="6" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="6" GridPane.columnIndex="7" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Pionblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="6" GridPane.columnIndex="7" styleClass="green-cell">
       </VBox>
 
       <!-- Row 7 -->
-      <VBox GridPane.rowIndex="7" GridPane.columnIndex="0" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Tourblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="7" GridPane.columnIndex="0" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="7" GridPane.columnIndex="1" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Cavalierblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="7" GridPane.columnIndex="1" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="7" GridPane.columnIndex="2" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Foublanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="7" GridPane.columnIndex="2" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="7" GridPane.columnIndex="3" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Reineblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="7" GridPane.columnIndex="3" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="7" GridPane.columnIndex="4" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Roiblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="7" GridPane.columnIndex="4" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="7" GridPane.columnIndex="5" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Foublanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="7" GridPane.columnIndex="5" styleClass="white-cell">
       </VBox>
-      <VBox GridPane.rowIndex="7" GridPane.columnIndex="6" styleClass="white-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Cavalierblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="7" GridPane.columnIndex="6" styleClass="green-cell">
       </VBox>
-      <VBox GridPane.rowIndex="7" GridPane.columnIndex="7" styleClass="green-cell">
-        <ImageView fitWidth="100" fitHeight="100">
-          <Image url="@../img/blanc/Tourblanc.png" />
-        </ImageView>
+      <VBox GridPane.rowIndex="7" GridPane.columnIndex="7" styleClass="white-cell">
       </VBox>
     </GridPane>
   </center>
   <right>
     <VBox spacing="10" styleClass="right-panel">
-      <MenuButton text="10 min" fx:id="timeMenuButton" styleClass="time-button">
+      <MenuButton fx:id="timeMenuButton" text="10 min" styleClass="menu-button">
         <items>
-          <MenuItem text="20 min" onAction="#handleTimeChange"/>
-          <MenuItem text="10 min" onAction="#handleTimeChange"/>
-          <MenuItem text="5 min" onAction="#handleTimeChange"/>
-          <MenuItem text="1 min" onAction="#handleTimeChange"/>
+          <MenuItem fx:id="twentyMinItem" text="20 min"/>
+          <MenuItem fx:id="tenMinItem" text="10 min"/>
+          <MenuItem fx:id="fiveMinItem" text="5 min"/>
+          <MenuItem fx:id="oneMinItem" text="1 min"/>
         </items>
       </MenuButton>
       <Button text="Jouer" styleClass="play-button"/>
