@@ -2,7 +2,6 @@ package com.example.sae201bouchamichampieuxgarciakanboui;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -41,6 +40,8 @@ public class HelloController {
     private int selectedRow = -1;
     private int selectedCol = -1;
     private List<Circle> moveIndicators = new ArrayList<>();
+    private List<VBox> redCells = new ArrayList<>();
+    private VBox selectedCell = null;
 
     private boolean whiteKingMoved = false;
     private boolean blackKingMoved = false;
@@ -111,85 +112,107 @@ public class HelloController {
     private void handleCellClick(int row, int col) {
         if (selectedPiece == null) {
             if (board[row][col] != null) {
-                selectedPiece = (ImageView) boardCells[row][col].getChildren().get(0);
-                selectedRow = row;
-                selectedCol = col;
-                showPossibleMoves(selectedRow, selectedCol);
+                selectPiece(row, col);
             }
         } else {
-            clearMoveIndicators();
-            if (isValidMove(selectedRow, selectedCol, row, col)) {
-                // Gestion des roques
-                if (board[selectedRow][selectedCol].equals("blanc/Roiblanc.png")) {
-                    whiteKingMoved = true;
-                    if (selectedCol == 4 && col == 6) { // Roque à droite
-                        boardCells[7][7].getChildren().clear();
-                        ImageView rook = new ImageView(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/blanc/Tourblanc.png")));
-                        rook.setFitWidth(100);
-                        rook.setFitHeight(100);
-                        boardCells[7][5].getChildren().add(rook);
-                        board[7][7] = null;
-                        board[7][5] = "blanc/Tourblanc.png";
-                    } else if (selectedCol == 4 && col == 2) { // Roque à gauche
-                        boardCells[7][0].getChildren().clear();
-                        ImageView rook = new ImageView(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/blanc/Tourblanc.png")));
-                        rook.setFitWidth(100);
-                        rook.setFitHeight(100);
-                        boardCells[7][3].getChildren().add(rook);
-                        board[7][0] = null;
-                        board[7][3] = "blanc/Tourblanc.png";
-                    }
-                } else if (board[selectedRow][selectedCol].equals("noir/Roinoir.png")) {
-                    blackKingMoved = true;
-                    if (selectedCol == 4 && col == 6) { // Roque à droite
-                        boardCells[0][7].getChildren().clear();
-                        ImageView rook = new ImageView(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/noir/Tournoir.png")));
-                        rook.setFitWidth(100);
-                        rook.setFitHeight(100);
-                        boardCells[0][5].getChildren().add(rook);
-                        board[0][7] = null;
-                        board[0][5] = "noir/Tournoir.png";
-                    } else if (selectedCol == 4 && col == 2) { // Roque à gauche
-                        boardCells[0][0].getChildren().clear();
-                        ImageView rook = new ImageView(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/noir/Tournoir.png")));
-                        rook.setFitWidth(100);
-                        rook.setFitHeight(100);
-                        boardCells[0][3].getChildren().add(rook);
-                        board[0][0] = null;
-                        board[0][3] = "noir/Tournoir.png";
-                    }
-                }
-
-                // Gestion de la promotion des pions
-                if (board[selectedRow][selectedCol].equals("blanc/Pionblanc.png") && row == 0) {
-                    board[selectedRow][selectedCol] = "blanc/Reineblanc.png"; // Promotion en reine
-                    selectedPiece.setImage(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/blanc/Reineblanc.png")));
-                } else if (board[selectedRow][selectedCol].equals("noir/Pionnoir.png") && row == 7) {
-                    board[selectedRow][selectedCol] = "noir/Reinenoir.png"; // Promotion en reine
-                    selectedPiece.setImage(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/noir/Reinenoir.png")));
-                }
-
-                // Déplacement de la pièce
-                boardCells[selectedRow][selectedCol].getChildren().clear();
-                if (board[row][col] != null) {
-                    // Enlève la pièce capturée
-                    boardCells[row][col].getChildren().clear();
-                }
-                boardCells[row][col].getChildren().add(selectedPiece);
-
-                board[row][col] = board[selectedRow][selectedCol];
-                board[selectedRow][selectedCol] = null;
-
-                selectedPiece = null;
-                selectedRow = -1;
-                selectedCol = -1;
+            if (board[row][col] != null && board[selectedRow][selectedCol].startsWith(board[row][col].substring(0, 5))) {
+                clearSelection();
+                selectPiece(row, col);
             } else {
-                showError("Mouvement invalide !");
-                selectedPiece = null;
-                selectedRow = -1;
-                selectedCol = -1;
+                clearMoveIndicators();
+                resetRedCells();
+                if (isValidMove(selectedRow, selectedCol, row, col)) {
+                    // Gestion des roques
+                    if (board[selectedRow][selectedCol].equals("blanc/Roiblanc.png")) {
+                        whiteKingMoved = true;
+                        if (selectedCol == 4 && col == 6) { // Roque à droite
+                            boardCells[7][7].getChildren().clear();
+                            ImageView rook = new ImageView(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/blanc/Tourblanc.png")));
+                            rook.setFitWidth(100);
+                            rook.setFitHeight(100);
+                            boardCells[7][5].getChildren().add(rook);
+                            board[7][7] = null;
+                            board[7][5] = "blanc/Tourblanc.png";
+                        } else if (selectedCol == 4 && col == 2) { // Roque à gauche
+                            boardCells[7][0].getChildren().clear();
+                            ImageView rook = new ImageView(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/blanc/Tourblanc.png")));
+                            rook.setFitWidth(100);
+                            rook.setFitHeight(100);
+                            boardCells[7][3].getChildren().add(rook);
+                            board[7][0] = null;
+                            board[7][3] = "blanc/Tourblanc.png";
+                        }
+                    } else if (board[selectedRow][selectedCol].equals("noir/Roinoir.png")) {
+                        blackKingMoved = true;
+                        if (selectedCol == 4 && col == 6) { // Roque à droite
+                            boardCells[0][7].getChildren().clear();
+                            ImageView rook = new ImageView(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/noir/Tournoir.png")));
+                            rook.setFitWidth(100);
+                            rook.setFitHeight(100);
+                            boardCells[0][5].getChildren().add(rook);
+                            board[0][7] = null;
+                            board[0][5] = "noir/Tournoir.png";
+                        } else if (selectedCol == 4 && col == 2) { // Roque à gauche
+                            boardCells[0][0].getChildren().clear();
+                            ImageView rook = new ImageView(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/noir/Tournoir.png")));
+                            rook.setFitWidth(100);
+                            rook.setFitHeight(100);
+                            boardCells[0][3].getChildren().add(rook);
+                            board[0][0] = null;
+                            board[0][3] = "noir/Tournoir.png";
+                        }
+                    }
+
+                    // Gestion de la promotion des pions
+                    if (board[selectedRow][selectedCol].equals("blanc/Pionblanc.png") && row == 0) {
+                        board[selectedRow][selectedCol] = "blanc/Reineblanc.png"; // Promotion en reine
+                        selectedPiece.setImage(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/blanc/Reineblanc.png")));
+                    } else if (board[selectedRow][selectedCol].equals("noir/Pionnoir.png") && row == 7) {
+                        board[selectedRow][selectedCol] = "noir/Reinenoir.png"; // Promotion en reine
+                        selectedPiece.setImage(new Image(getClass().getResourceAsStream("/com/example/sae201bouchamichampieuxgarciakanboui/img/noir/Reinenoir.png")));
+                    }
+
+                    // Déplacement de la pièce
+                    boardCells[selectedRow][selectedCol].getChildren().clear();
+                    if (board[row][col] != null) {
+                        // Enlève la pièce capturée
+                        boardCells[row][col].getChildren().clear();
+                    }
+                    boardCells[row][col].getChildren().add(selectedPiece);
+
+                    board[row][col] = board[selectedRow][selectedCol];
+                    board[selectedRow][selectedCol] = null;
+
+                    selectedPiece = null;
+                    selectedRow = -1;
+                    selectedCol = -1;
+                    clearSelection();
+                } else {
+                    clearSelection();
+                }
             }
         }
+    }
+
+    private void selectPiece(int row, int col) {
+        selectedPiece = (ImageView) boardCells[row][col].getChildren().get(0);
+        selectedRow = row;
+        selectedCol = col;
+        selectedCell = boardCells[row][col];
+        selectedCell.getStyleClass().add("yellow-cell");
+        showPossibleMoves(selectedRow, selectedCol);
+    }
+
+    private void clearSelection() {
+        if (selectedCell != null) {
+            selectedCell.getStyleClass().remove("yellow-cell");
+            selectedCell = null;
+        }
+        selectedPiece = null;
+        selectedRow = -1;
+        selectedCol = -1;
+        clearMoveIndicators();
+        resetRedCells();
     }
 
     private boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
@@ -232,7 +255,11 @@ public class HelloController {
     private boolean isValidMovePionNoir(int fromRow, int fromCol, int toRow, int toCol, String destinationPiece) {
         if (destinationPiece == null) {
             if (fromRow == 1) { // Mouvement initial de deux cases pour un pion
-                return (toRow == fromRow + 1 || toRow == fromRow + 2) && fromCol == toCol && board[toRow][toCol] == null;
+                if ((toRow == fromRow + 2) && fromCol == toCol) {
+                    return board[fromRow + 1][fromCol] == null && board[toRow][toCol] == null;
+                } else {
+                    return toRow == fromRow + 1 && fromCol == toCol && board[toRow][toCol] == null;
+                }
             } else {
                 return toRow == fromRow + 1 && fromCol == toCol && board[toRow][toCol] == null;
             }
@@ -244,7 +271,11 @@ public class HelloController {
     private boolean isValidMovePionBlanc(int fromRow, int fromCol, int toRow, int toCol, String destinationPiece) {
         if (destinationPiece == null) {
             if (fromRow == 6) { // Mouvement initial de deux cases pour un pion
-                return (toRow == fromRow - 1 || toRow == fromRow - 2) && fromCol == toCol && board[toRow][toCol] == null;
+                if ((toRow == fromRow - 2) && fromCol == toCol) {
+                    return board[fromRow - 1][fromCol] == null && board[toRow][toCol] == null;
+                } else {
+                    return toRow == fromRow - 1 && fromCol == toCol && board[toRow][toCol] == null;
+                }
             } else {
                 return toRow == fromRow - 1 && fromCol == toCol && board[toRow][toCol] == null;
             }
@@ -328,9 +359,14 @@ public class HelloController {
         for (int row = 0; row < 8; row++) {
             for (int col = 0; col < 8; col++) {
                 if (isValidMove(fromRow, fromCol, row, col)) {
-                    Circle circle = new Circle(15, Color.LIGHTGRAY);
-                    boardCells[row][col].getChildren().add(circle);
-                    moveIndicators.add(circle);
+                    if (board[row][col] != null) {
+                        boardCells[row][col].getStyleClass().add("red-cell");
+                        redCells.add(boardCells[row][col]);
+                    } else {
+                        Circle circle = new Circle(15, Color.LIGHTGRAY);
+                        boardCells[row][col].getChildren().add(circle);
+                        moveIndicators.add(circle);
+                    }
                 }
             }
         }
@@ -343,12 +379,11 @@ public class HelloController {
         moveIndicators.clear();
     }
 
-    private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Erreur");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void resetRedCells() {
+        for (VBox cell : redCells) {
+            cell.getStyleClass().remove("red-cell");
+        }
+        redCells.clear();
     }
 
     private void setUpTimeButton() {

@@ -20,6 +20,8 @@
     -fx-padding: 10;
     -fx-hgap: 0;
     -fx-vgap: 0;
+    -fx-alignment: center;
+    -fx-background-color: #2b2b2b;
 }
 
 .green-cell {
@@ -123,5 +125,15 @@
 .menu-button .menu-item:hover {
     -fx-background-color: #a9ee5d;
 }
+
+
+.red-cell {
+    -fx-background-color: red;
+}
+
+.yellow-cell {
+    -fx-background-color: yellow;
+}
+
 
 
