@@ -2,8 +2,7 @@ package com.example.sae201bouchamichampieuxgarciakanboui;
 
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -32,7 +31,34 @@ public class HelloController {
     private MenuItem oneMinItem;
 
     @FXML
+    private MenuButton tournamentMenuButton;
+
+    @FXML
+    private MenuItem oneVsOneItem;
+
+    @FXML
+    private MenuItem oneVsAIItem;
+
+    @FXML
+    private MenuItem tournamentItem;
+
+    @FXML
     private GridPane chessBoard;
+
+    @FXML
+    private Label turnLabel;
+
+    @FXML
+    private Button playButton;
+
+    @FXML
+    private Label labelHaut;
+
+    @FXML
+    private Label labelBas;
+
+    @FXML
+    private Label checkLabel;
 
     private VBox[][] boardCells = new VBox[8][8];
     private String[][] board = new String[8][8];
@@ -48,11 +74,147 @@ public class HelloController {
     private boolean[] whiteRooksMoved = {false, false}; // left and right rooks
     private boolean[] blackRooksMoved = {false, false}; // left and right rooks
 
+    private boolean isWhiteTurn = true; // Indicateur de tour, commence par les blancs
+
+    private String selectedTime = "10 min"; // Temps de partie par défaut
+    private Timeline whiteTimerTimeline;
+    private Timeline blackTimerTimeline;
+
+    private int whiteTimeInSeconds;
+    private int blackTimeInSeconds;
+
+
     @FXML
     public void initialize() {
-        setUpTimeButton();
+
+        stopTimer(); // Ajoute cette ligne pour s'assurer que les timers sont arrêtés
+        whiteTimeInSeconds = 600;
+        blackTimeInSeconds = 600;
         initializeBoard();
-        setupEventHandlers();
+        timeSetter();
+        setTimeForPlayers(selectedTime);
+
+        playButton.setOnAction(event -> {
+            setupEventHandlers();
+            updateTurnLabel();
+            timeMenuButton.setDisable(true);
+            playButton.setDisable(true);
+            tournamentMenuButton.setDisable(true);
+            startTimer();
+        });
+        setupTournamentMenu();
+    }
+
+
+    private void timeSetter() {
+        // Ajout des gestionnaires d'événements aux éléments du menu
+        twentyMinItem.setOnAction(event -> handleMenuItemClick(twentyMinItem.getText()));
+        tenMinItem.setOnAction(event -> handleMenuItemClick(tenMinItem.getText()));
+        fiveMinItem.setOnAction(event -> handleMenuItemClick(fiveMinItem.getText()));
+        oneMinItem.setOnAction(event -> handleMenuItemClick(oneMinItem.getText()));
+
+    }
+
+    private void setupTournamentMenu() {
+        oneVsOneItem.setOnAction(event -> handleTournamentMenuItemClick(oneVsOneItem.getText()));
+        oneVsAIItem.setOnAction(event -> handleTournamentMenuItemClick(oneVsAIItem.getText()));
+        tournamentItem.setOnAction(event -> handleTournamentMenuItemClick(tournamentItem.getText()));
+    }
+
+    private void handleMenuItemClick(String time) {
+        timeMenuButton.setText(time);
+        setTimeForPlayers(time);
+    }
+
+    private void handleTournamentMenuItemClick(String text) {
+        tournamentMenuButton.setText(text);
+    }
+
+    // Méthode pour définir le temps de partie pour chaque joueur
+    private void setTimeForPlayers(String time) {
+        labelBas.setText(time);
+        labelHaut.setText(time);
+        switch (time){
+            case "10 min":
+                whiteTimeInSeconds = 10;
+                blackTimeInSeconds = 10;
+                break;
+            case "20 min":
+                whiteTimeInSeconds = 20;
+                blackTimeInSeconds = 20;
+                break;
+            case "5 min":
+                whiteTimeInSeconds = 300;
+                blackTimeInSeconds = 300;
+                break;
+            case "1 min":
+                whiteTimeInSeconds = 60;
+                blackTimeInSeconds = 60;
+                break;
+        }
+    }
+
+    private void checkTime() {
+        if (whiteTimeInSeconds <= 0 || blackTimeInSeconds <= 0) {
+            playButton.setDisable(false);
+            timeMenuButton.setDisable(false);
+            tournamentMenuButton.setDisable(false);
+            clearBoard();
+            initialize();
+        }
+    }
+
+    // Méthode pour nettoyer le plateau
+    private void clearBoard() {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                boardCells[row][col].getChildren().clear();
+                board[row][col] = null;
+            }
+        }
+    }
+
+    private void startTimer() {
+        stopTimer(); // Ajoute cette ligne pour arrêter le timer en cours
+
+        if (isWhiteTurn) {
+            whiteTimerTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                whiteTimeInSeconds--;
+                updateTimerDisplay();
+                checkTime();
+            }));
+            whiteTimerTimeline.setCycleCount(Timeline.INDEFINITE);
+            whiteTimerTimeline.play();
+        } else {
+            blackTimerTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                blackTimeInSeconds--;
+                updateTimerDisplay();
+                checkTime();
+            }));
+            blackTimerTimeline.setCycleCount(Timeline.INDEFINITE);
+            blackTimerTimeline.play();
+        }
+    }
+
+
+    private void stopTimer() {
+        if (whiteTimerTimeline != null && whiteTimerTimeline.getStatus() == Timeline.Status.RUNNING) {
+            whiteTimerTimeline.stop();
+        }
+        if (blackTimerTimeline != null && blackTimerTimeline.getStatus() == Timeline.Status.RUNNING) {
+            blackTimerTimeline.stop();
+        }
+    }
+
+
+    private void updateTimerDisplay() {
+        int whiteMinutes = whiteTimeInSeconds / 60;
+        int whiteSeconds = whiteTimeInSeconds % 60;
+        labelBas.setText(String.format("%02d:%02d", whiteMinutes, whiteSeconds));
+
+        int blackMinutes = blackTimeInSeconds / 60;
+        int blackSeconds = blackTimeInSeconds % 60;
+        labelHaut.setText(String.format("%02d:%02d", blackMinutes, blackSeconds));
     }
 
     private void initializeBoard() {
@@ -111,7 +273,7 @@ public class HelloController {
 
     private void handleCellClick(int row, int col) {
         if (selectedPiece == null) {
-            if (board[row][col] != null) {
+            if (board[row][col] != null && isCorrectTurn(row, col)) {
                 selectPiece(row, col);
             }
         } else {
@@ -187,11 +349,49 @@ public class HelloController {
                     selectedRow = -1;
                     selectedCol = -1;
                     clearSelection();
+                    toggleTurn();
+
+                    // Vérification des échecs et échecs et mats
+                    if (isInCheck("blanc")) {
+                        if (isCheckmate("blanc")) {
+                            updateCheckLabel("Échec et mat ", "check-label-black");
+                        } else {
+                            updateCheckLabel("Échec", "check-label-black");
+                        }
+                    } else if (isInCheck("noir")) {
+                        if (isCheckmate("noir")) {
+                            updateCheckLabel("Échec et mat", "check-label-white");
+                        } else {
+                            updateCheckLabel("Échec", "check-label-white");
+                        }
+                    } else {
+                        checkLabel.setVisible(false);
+                    }
                 } else {
                     clearSelection();
                 }
             }
         }
+    }
+
+    private void updateCheckLabel(String message, String styleClass) {
+        checkLabel.setText(message);
+        checkLabel.setVisible(true);
+        checkLabel.getStyleClass().removeAll("check-label-white", "check-label-black");
+        checkLabel.getStyleClass().add(styleClass);
+    }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private boolean isCorrectTurn(int row, int col) {
+        String piece = board[row][col];
+        return (isWhiteTurn && piece.startsWith("blanc")) || (!isWhiteTurn && piece.startsWith("noir"));
     }
 
     private void selectPiece(int row, int col) {
@@ -215,11 +415,87 @@ public class HelloController {
         resetRedCells();
     }
 
-    private boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
+    private void toggleTurn() {
+        stopTimer(); // Ajoute cette ligne pour arrêter le timer en cours
+        isWhiteTurn = !isWhiteTurn;
+        updateTurnLabel();
+        startTimer(); // Ajoute cette ligne pour démarrer le timer du joueur suivant
+    }
+
+
+    private void updateTurnLabel() {
+        turnLabel.setText("Tour: " + (isWhiteTurn ? "Blancs" : "Noirs"));
+        turnLabel.getStyleClass().removeAll("turn-label-white", "turn-label-black");
+        if (isWhiteTurn) {
+            turnLabel.getStyleClass().add("turn-label-white");
+        } else {
+            turnLabel.getStyleClass().add("turn-label-black");
+        }
+    }
+
+    private boolean isInCheck(String color) {
+        int kingRow = -1;
+        int kingCol = -1;
+
+        // Trouver le roi
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (board[row][col] != null && board[row][col].equals(color + "/Roi" + color + ".png")) {
+                    kingRow = row;
+                    kingCol = col;
+                    break;
+                }
+            }
+        }
+
+        // Vérifier si le roi est attaqué
+        return isUnderAttack(kingRow, kingCol, color);
+    }
+
+    private boolean isUnderAttack(int kingRow, int kingCol, String color) {
+        String opponentColor = color.equals("blanc") ? "noir" : "blanc";
+
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (board[row][col] != null && board[row][col].startsWith(opponentColor)) {
+                    if (isValidMoveWithoutCheck(row, col, kingRow, kingCol)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isCheckmate(String color) {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                if (board[row][col] != null && board[row][col].startsWith(color)) {
+                    for (int toRow = 0; toRow < 8; toRow++) {
+                        for (int toCol = 0; toCol < 8; toCol++) {
+                            if (isValidMoveWithoutCheck(row, col, toRow, toCol)) {
+                                String tempPiece = board[toRow][toCol];
+                                board[toRow][toCol] = board[row][col];
+                                board[row][col] = null;
+                                boolean inCheck = isInCheck(color);
+                                board[row][col] = board[toRow][toCol];
+                                board[toRow][toCol] = tempPiece;
+                                if (!inCheck) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean isValidMoveWithoutCheck(int fromRow, int fromCol, int toRow, int toCol) {
         String piece = board[fromRow][fromCol];
         String destinationPiece = board[toRow][toCol];
 
-        // Vérifier si la pièce destination est de la même couleur
         if (destinationPiece != null) {
             if ((piece.startsWith("blanc") && destinationPiece.startsWith("blanc")) ||
                     (piece.startsWith("noir") && destinationPiece.startsWith("noir"))) {
@@ -250,6 +526,32 @@ public class HelloController {
             default:
                 return false;
         }
+    }
+
+    private boolean isValidMove(int fromRow, int fromCol, int toRow, int toCol) {
+        String piece = board[fromRow][fromCol];
+        String destinationPiece = board[toRow][toCol];
+
+        // Vérifier si la pièce destination est de la même couleur
+        if (destinationPiece != null) {
+            if ((piece.startsWith("blanc") && destinationPiece.startsWith("blanc")) ||
+                    (piece.startsWith("noir") && destinationPiece.startsWith("noir"))) {
+                return false;
+            }
+        }
+
+        if (isValidMoveWithoutCheck(fromRow, fromCol, toRow, toCol)) {
+            // Simuler le mouvement pour vérifier s'il met le roi en échec
+            String tempPiece = board[toRow][toCol];
+            board[toRow][toCol] = board[fromRow][fromCol];
+            board[fromRow][fromCol] = null;
+            boolean isInCheck = isInCheck(piece.startsWith("blanc") ? "blanc" : "noir");
+            board[fromRow][fromCol] = board[toRow][toCol];
+            board[toRow][toCol] = tempPiece;
+            return !isInCheck;
+        }
+
+        return false;
     }
 
     private boolean isValidMovePionNoir(int fromRow, int fromCol, int toRow, int toCol, String destinationPiece) {

@@ -17,10 +17,17 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sae201bouchamichampieuxgarciakanboui.HelloController" stylesheets="/chessCSS.css">
   <top>
-    <HBox spacing="10" styleClass="top-bar">
-      <Label text="Adversaire" styleClass="player-label" />
-      <Label text="10:00" styleClass="time-label" />
-    </HBox>
+      <GridPane alignment="CENTER" styleClass="top-bar">
+        <columnConstraints>
+          <ColumnConstraints percentWidth="100"/>
+          <ColumnConstraints percentWidth="100"/>
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints prefHeight="30"/>
+        </rowConstraints>
+        <Label text="Adversaire" styleClass="player-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+        <Label fx:id="labelHaut" text="" styleClass="time-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+      </GridPane>
   </top>
   <center>
     <GridPane fx:id="chessBoard" styleClass="chess-board">
@@ -163,6 +170,8 @@
   </center>
   <right>
     <VBox spacing="10" styleClass="right-panel">
+      <Label fx:id="checkLabel" text="" styleClass="check-label" visible="false" />
+      <Label fx:id="turnLabel" text="Tour: Blancs" styleClass="turn-label" />
       <MenuButton fx:id="timeMenuButton" text="10 min" styleClass="menu-button">
         <items>
           <MenuItem fx:id="twentyMinItem" text="20 min"/>
@@ -186,9 +195,16 @@
     </VBox>
   </right>
   <bottom>
-    <HBox spacing="10" styleClass="bottom-bar">
-      <Label text="Guest2638305585 (400)" styleClass="player-label" />
-      <Label text="10:00" styleClass="time-label" />
-    </HBox>
+    <GridPane styleClass="bottom-bar">
+      <columnConstraints>
+        <ColumnConstraints percentWidth="200"/>
+        <ColumnConstraints percentWidth="200"/>
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints prefHeight="30"/>
+      </rowConstraints>
+      <Label text="Guest2638305585 (400)" styleClass="player-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+      <Label fx:id="labelBas" text="10 min" styleClass="time-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    </GridPane>
   </bottom>
 </BorderPane>
