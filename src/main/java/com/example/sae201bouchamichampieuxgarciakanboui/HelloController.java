@@ -156,6 +156,19 @@ public class HelloController {
             });
             setupTournamentMenu();
         }
+
+        // Gestionnaires pour les boutons d'abandon
+        abandonBlanc.setOnAction(event -> handleAbandon("Blancs"));
+        abandonNoir.setOnAction(event -> handleAbandon("Noirs"));
+    }
+
+    // Méthode pour gérer l'abandon
+    private void handleAbandon(String player) {
+        String winner = player.equals("Blancs") ? "Noirs" : "Blancs";
+        String styleClass = player.equals("Blancs") ? "check-label-black" : "check-label-white";
+        updateCheckLabel("Victoire " + winner, styleClass);
+        removeEventHandlers();
+        initialize();
     }
 
 
