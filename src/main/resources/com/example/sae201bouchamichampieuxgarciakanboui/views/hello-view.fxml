@@ -17,17 +17,17 @@
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sae201bouchamichampieuxgarciakanboui.HelloController" stylesheets="/chessCSS.css">
   <top>
-      <GridPane alignment="CENTER" styleClass="top-bar">
-        <columnConstraints>
-          <ColumnConstraints percentWidth="100"/>
-          <ColumnConstraints percentWidth="100"/>
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints prefHeight="30"/>
-        </rowConstraints>
-        <Label text="Adversaire" styleClass="player-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-        <Label fx:id="labelHaut" text="" styleClass="time-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-      </GridPane>
+    <GridPane alignment="CENTER" styleClass="top-bar">
+      <columnConstraints>
+        <ColumnConstraints percentWidth="100"/>
+        <ColumnConstraints percentWidth="100"/>
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints prefHeight="30"/>
+      </rowConstraints>
+      <Label text="Adversaire" styleClass="player-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+      <Label fx:id="labelHaut" text="" styleClass="time-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+    </GridPane>
   </top>
   <center>
     <GridPane fx:id="chessBoard" styleClass="chess-board">
@@ -180,8 +180,14 @@
           <MenuItem fx:id="oneMinItem" text="1 min"/>
         </items>
       </MenuButton>
-      <Button text="Jouer" styleClass="play-button"/>
-      <Button text="Tournois" styleClass="tournament-button"/>
+      <Button fx:id="playButton" text="Jouer" styleClass="play-button"/>
+      <MenuButton fx:id="tournamentMenuButton" text="1 vs 1" styleClass="tournament-button">
+        <items>
+          <MenuItem fx:id="oneVsOneItem" text="1 vs 1"/>
+          <MenuItem fx:id="oneVsAIItem" text="1 vs IA"/>
+          <MenuItem fx:id="tournamentItem" text="Tournois"/>
+        </items>
+      </MenuButton>
       <HBox>
         <VBox styleClass="right-bottom-stats-numbers">
           <Label text="144,328" styleClass="stats-label-numbers" />
