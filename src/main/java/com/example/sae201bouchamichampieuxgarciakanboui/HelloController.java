@@ -542,8 +542,26 @@ public class HelloController {
         stopTimer(); // Ajoute cette ligne pour arrêter le timer en cours
         isWhiteTurn = !isWhiteTurn;
         updateTurnLabel();
+        if (gameMode.equals("1 vs IA")) {
+            if (isWhiteTurn) {
+                enableUserInteraction();
+            } else {
+                disableUserInteraction();
+                playMoveWithDelay();
+            }
+        }
         startTimer(); // Ajoute cette ligne pour démarrer le timer du joueur suivant
     }
+
+
+    private void playMoveWithDelay() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+            makeRandomMoveForAI();
+        }));
+        timeline.setCycleCount(1);
+        timeline.play();
+    }
+
 
 
     private void updateTurnLabel() {
@@ -821,7 +839,27 @@ public class HelloController {
             handleCellClick(move[0], move[1]);
             handleCellClick(move[2], move[3]);
         }
+        enableUserInteraction(); // Réactiver l'interaction utilisateur après le coup de l'IA
     }
+
+
+
+    private void disableUserInteraction() {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                boardCells[row][col].setDisable(true);
+            }
+        }
+    }
+
+    private void enableUserInteraction() {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                boardCells[row][col].setDisable(false);
+            }
+        }
+    }
+
 
 
 
