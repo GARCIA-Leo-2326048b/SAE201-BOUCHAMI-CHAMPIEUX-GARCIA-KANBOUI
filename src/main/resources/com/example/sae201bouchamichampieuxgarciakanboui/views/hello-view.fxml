@@ -27,6 +27,7 @@
       </rowConstraints>
       <Label text="Adversaire" styleClass="player-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
       <Label fx:id="labelHaut" text="" styleClass="time-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
     </GridPane>
   </top>
   <center>
@@ -170,6 +171,7 @@
   </center>
   <right>
     <VBox spacing="10" styleClass="right-panel">
+      <Button fx:id="abandonNoir" text="Abandonner" styleClass="abandonNoir" visible="false"/>
       <Label fx:id="checkLabel" text="" styleClass="check-label" visible="false" />
       <Label fx:id="turnLabel" text="Tour: Blancs" styleClass="turn-label" visible="false"/>
       <MenuButton fx:id="timeMenuButton" text="10 min" styleClass="menu-button">
@@ -198,6 +200,7 @@
           <Label text="Parties jouées" styleClass="stats-label-text" />
         </VBox>
       </HBox>
+      <Button fx:id="abandonBlanc" text="Abandonner" styleClass="abandonBlanc" visible="false"/>
     </VBox>
   </right>
   <bottom>

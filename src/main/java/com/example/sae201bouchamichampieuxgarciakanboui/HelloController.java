@@ -63,6 +63,12 @@ public class HelloController {
     @FXML
     private Label checkLabel;
 
+    @FXML
+    private Button abandonBlanc;
+
+    @FXML
+    private Button abandonNoir;
+
     private VBox[][] boardCells = new VBox[8][8];
     private String[][] board = new String[8][8];
     private ImageView selectedPiece = null;
@@ -101,8 +107,7 @@ public class HelloController {
             blackRooksMoved = new boolean[]{false, false};
 
             // Réinitialiser les labels et boutons
-            turnLabel.setVisible(false);
-            checkLabel.setVisible(false);
+
             playButton.setText("Rejouer");
             playButton.setDisable(false);
             timeMenuButton.setDisable(false);
@@ -114,6 +119,10 @@ public class HelloController {
             setTimeForPlayers(selectedTime);
 
             playButton.setOnAction(event -> {
+                abandonBlanc.setVisible(true);
+                abandonNoir.setVisible(true);
+                turnLabel.setVisible(false);
+                checkLabel.setVisible(false);
                 clearBoard();
                 initializeBoard();
                 setupEventHandlers();
@@ -133,6 +142,8 @@ public class HelloController {
             setTimeForPlayers(selectedTime);
 
             playButton.setOnAction(event -> {
+                abandonBlanc.setVisible(true);
+                abandonNoir.setVisible(true);
                 clearBoard();
                 initializeBoard();
                 setupEventHandlers();
@@ -147,6 +158,7 @@ public class HelloController {
         }
     }
 
+
     private void checkTime() {
         if (whiteTimeInSeconds <= 0 || blackTimeInSeconds <= 0) {
             if (selectedPiece != null) {
@@ -155,10 +167,11 @@ public class HelloController {
             String winner = whiteTimeInSeconds <= 0 ? "Noirs" : "Blancs";
             String styleClass = whiteTimeInSeconds <= 0 ? "check-label-black" : "check-label-white";
             updateCheckLabel("Victoire " + winner, styleClass);
-
+            removeEventHandlers();
             initialize();
         }
     }
+
 
 
     private void deselectPiece() {
@@ -170,7 +183,31 @@ public class HelloController {
         }
     }
 
+    private void clearSelection() {
+        if (selectedCell != null) {
+            selectedCell.getStyleClass().remove("yellow-cell");
+            selectedCell = null;
+        }
+        selectedPiece = null;
+        selectedRow = -1;
+        selectedCol = -1;
+        clearMoveIndicators();
+        resetRedCells();
+    }
 
+    private void clearMoveIndicators() {
+        for (Circle circle : moveIndicators) {
+            ((VBox) circle.getParent()).getChildren().remove(circle);
+        }
+        moveIndicators.clear();
+    }
+
+    private void resetRedCells() {
+        for (VBox cell : redCells) {
+            cell.getStyleClass().remove("red-cell");
+        }
+        redCells.clear();
+    }
 
     private void timeSetter() {
         // Ajout des gestionnaires d'événements aux éléments du menu
@@ -332,6 +369,16 @@ public class HelloController {
         }
     }
 
+    private void removeEventHandlers() {
+        for (int row = 0; row < 8; row++) {
+            for (int col = 0; col < 8; col++) {
+                final int r = row;
+                final int c = col;
+                boardCells[row][col].setOnMouseClicked(null);
+            }
+        }
+    }
+
     private void handleCellClick(int row, int col) {
         if (selectedPiece == null) {
             if (board[row][col] != null && isCorrectTurn(row, col)) {
@@ -416,14 +463,16 @@ public class HelloController {
                     if (isInCheck("blanc")) {
                         if (isCheckmate("blanc")) {
                             updateCheckLabel("Échec et mat ", "check-label-black");
-
+                            removeEventHandlers();
+                            initialize();
                         } else {
                             updateCheckLabel("Échec", "check-label-black");
                         }
                     } else if (isInCheck("noir")) {
                         if (isCheckmate("noir")) {
                             updateCheckLabel("Échec et mat", "check-label-white");
-
+                            removeEventHandlers();
+                            initialize();
                         } else {
                             updateCheckLabel("Échec", "check-label-white");
                         }
@@ -466,17 +515,7 @@ public class HelloController {
         showPossibleMoves(selectedRow, selectedCol);
     }
 
-    private void clearSelection() {
-        if (selectedCell != null) {
-            selectedCell.getStyleClass().remove("yellow-cell");
-            selectedCell = null;
-        }
-        selectedPiece = null;
-        selectedRow = -1;
-        selectedCol = -1;
-        clearMoveIndicators();
-        resetRedCells();
-    }
+
 
     private void toggleTurn() {
         stopTimer(); // Ajoute cette ligne pour arrêter le timer en cours
@@ -737,19 +776,7 @@ public class HelloController {
         }
     }
 
-    private void clearMoveIndicators() {
-        for (Circle circle : moveIndicators) {
-            ((VBox) circle.getParent()).getChildren().remove(circle);
-        }
-        moveIndicators.clear();
-    }
 
-    private void resetRedCells() {
-        for (VBox cell : redCells) {
-            cell.getStyleClass().remove("red-cell");
-        }
-        redCells.clear();
-    }
 
 
 }
