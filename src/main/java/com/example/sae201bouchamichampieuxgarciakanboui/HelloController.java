@@ -86,13 +86,15 @@ public class HelloController {
 
     @FXML
     public void initialize() {
-
         stopTimer(); // Ajoute cette ligne pour s'assurer que les timers sont arrêtés
         whiteTimeInSeconds = 600;
         blackTimeInSeconds = 600;
         initializeBoard();
         timeSetter();
         setTimeForPlayers(selectedTime);
+
+        turnLabel.setVisible(false); // Masquer le label du tour au début
+        checkLabel.setVisible(false); // Masquer le label des échecs/victoires au début
 
         playButton.setOnAction(event -> {
             setupEventHandlers();
@@ -101,6 +103,7 @@ public class HelloController {
             playButton.setDisable(true);
             tournamentMenuButton.setDisable(true);
             startTimer();
+            turnLabel.setVisible(true); // Rendre visible le label du tour
         });
         setupTournamentMenu();
     }
@@ -156,13 +159,20 @@ public class HelloController {
 
     private void checkTime() {
         if (whiteTimeInSeconds <= 0 || blackTimeInSeconds <= 0) {
+            String winner = whiteTimeInSeconds <= 0 ? "Noirs" : "Blancs";
+            String styleClass = whiteTimeInSeconds <= 0 ? "check-label-black" : "check-label-white";
+            updateCheckLabel("Victoire " + winner, styleClass);
+
+            playButton.setText("Rejouer");
             playButton.setDisable(false);
             timeMenuButton.setDisable(false);
             tournamentMenuButton.setDisable(false);
-            clearBoard();
-            initialize();
+
+            playButton.setOnAction(event -> resetGame());
         }
     }
+
+
 
     // Méthode pour nettoyer le plateau
     private void clearBoard() {
@@ -216,6 +226,7 @@ public class HelloController {
         int blackSeconds = blackTimeInSeconds % 60;
         labelHaut.setText(String.format("%02d:%02d", blackMinutes, blackSeconds));
     }
+
 
     private void initializeBoard() {
         // Initialiser les pièces noires
@@ -688,10 +699,28 @@ public class HelloController {
         redCells.clear();
     }
 
-    private void setUpTimeButton() {
-        twentyMinItem.setOnAction(event -> timeMenuButton.setText("20 min"));
-        tenMinItem.setOnAction(event -> timeMenuButton.setText("10 min"));
-        fiveMinItem.setOnAction(event -> timeMenuButton.setText("5 min"));
-        oneMinItem.setOnAction(event -> timeMenuButton.setText("1 min"));
+    private void resetGame() {
+        // Réinitialiser les variables nécessaires
+        isWhiteTurn = true;
+        whiteTimeInSeconds = 600;
+        blackTimeInSeconds = 600;
+        whiteKingMoved = false;
+        blackKingMoved = false;
+        whiteRooksMoved = new boolean[]{false, false};
+        blackRooksMoved = new boolean[]{false, false};
+
+        // Réinitialiser les labels et boutons
+        turnLabel.setVisible(false);
+        checkLabel.setVisible(false);
+        playButton.setText("Jouer");
+        playButton.setDisable(true);
+        timeMenuButton.setDisable(true);
+        tournamentMenuButton.setDisable(true);
+
+        // Réinitialiser le plateau sans vider les pièces
+        setupEventHandlers();
+        updateTurnLabel();
+        startTimer();
+        turnLabel.setVisible(true);
     }
 }

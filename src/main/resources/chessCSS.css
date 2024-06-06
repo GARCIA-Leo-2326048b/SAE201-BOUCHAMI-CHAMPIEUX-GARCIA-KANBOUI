@@ -163,7 +163,7 @@
 
 
 .check-label {
-    -fx-font-size: 32px;
+    -fx-font-size: 26px;
     -fx-pref-width: 260px;
     -fx-font-weight: bold;
     -fx-padding: 5px 10px;
@@ -183,7 +183,3 @@
     -fx-text-fill: #FFFFFF;
     -fx-background-color: #000000;
 }
-
-
-
-
