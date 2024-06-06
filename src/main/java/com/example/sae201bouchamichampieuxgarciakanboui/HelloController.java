@@ -107,10 +107,12 @@ public class HelloController {
             blackRooksMoved = new boolean[]{false, false};
 
             // Réinitialiser les labels et boutons
-
+            abandonBlanc.setVisible(false);
+            abandonNoir.setVisible(false);
             playButton.setText("Rejouer");
             playButton.setDisable(false);
             timeMenuButton.setDisable(false);
+            timeMenuButton.setText("10 min");
             tournamentMenuButton.setDisable(false);
 
             // Réinitialiser le plateau sans vider les pièces
