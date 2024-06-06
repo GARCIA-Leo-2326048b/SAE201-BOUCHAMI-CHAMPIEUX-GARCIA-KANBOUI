@@ -86,30 +86,90 @@ public class HelloController {
     private int whiteTimeInSeconds;
     private int blackTimeInSeconds;
 
+    private boolean dejaJoue = false;
+
 
     @FXML
     public void initialize() {
-        stopTimer(); // Ajoute cette ligne pour s'assurer que les timers sont arrêtés
-        whiteTimeInSeconds = 600;
-        blackTimeInSeconds = 600;
-        initializeBoard();
-        timeSetter();
-        setTimeForPlayers(selectedTime);
+        if (dejaJoue){
+            isWhiteTurn = true;
+            whiteTimeInSeconds = 600;
+            blackTimeInSeconds = 600;
+            whiteKingMoved = false;
+            blackKingMoved = false;
+            whiteRooksMoved = new boolean[]{false, false};
+            blackRooksMoved = new boolean[]{false, false};
 
-        turnLabel.setVisible(false); // Masquer le label du tour au début
-        checkLabel.setVisible(false); // Masquer le label des échecs/victoires au début
+            // Réinitialiser les labels et boutons
+            turnLabel.setVisible(false);
+            checkLabel.setVisible(false);
+            playButton.setText("Rejouer");
+            playButton.setDisable(false);
+            timeMenuButton.setDisable(false);
+            tournamentMenuButton.setDisable(false);
 
-        playButton.setOnAction(event -> {
-            setupEventHandlers();
-            updateTurnLabel();
-            timeMenuButton.setDisable(true);
-            playButton.setDisable(true);
-            tournamentMenuButton.setDisable(true);
-            startTimer();
-            turnLabel.setVisible(true); // Rendre visible le label du tour
-        });
-        setupTournamentMenu();
+            // Réinitialiser le plateau sans vider les pièces
+            stopTimer(); // Ajoute cette ligne pour s'assurer que les timers sont arrêtés
+            timeSetter();
+            setTimeForPlayers(selectedTime);
+
+            playButton.setOnAction(event -> {
+                clearBoard();
+                initializeBoard();
+                setupEventHandlers();
+                updateTurnLabel();
+                timeMenuButton.setDisable(true);
+                playButton.setDisable(true);
+                tournamentMenuButton.setDisable(true);
+                startTimer();
+                turnLabel.setVisible(true); // Rendre visible le label du tour
+            });
+
+        }
+        else {
+            dejaJoue = true;
+            initializeBoard();
+            timeSetter();
+            setTimeForPlayers(selectedTime);
+
+            playButton.setOnAction(event -> {
+                clearBoard();
+                initializeBoard();
+                setupEventHandlers();
+                updateTurnLabel();
+                timeMenuButton.setDisable(true);
+                playButton.setDisable(true);
+                tournamentMenuButton.setDisable(true);
+                startTimer();
+                turnLabel.setVisible(true); // Rendre visible le label du tour
+            });
+            setupTournamentMenu();
+        }
     }
+
+    private void checkTime() {
+        if (whiteTimeInSeconds <= 0 || blackTimeInSeconds <= 0) {
+            if (selectedPiece != null) {
+                deselectPiece();
+            }
+            String winner = whiteTimeInSeconds <= 0 ? "Noirs" : "Blancs";
+            String styleClass = whiteTimeInSeconds <= 0 ? "check-label-black" : "check-label-white";
+            updateCheckLabel("Victoire " + winner, styleClass);
+
+            initialize();
+        }
+    }
+
+
+    private void deselectPiece() {
+        if (selectedPiece != null) {
+            clearSelection();
+            selectedPiece = null;
+            selectedRow = -1;
+            selectedCol = -1;
+        }
+    }
+
 
 
     private void timeSetter() {
@@ -160,20 +220,7 @@ public class HelloController {
         }
     }
 
-    private void checkTime() {
-        if (whiteTimeInSeconds <= 0 || blackTimeInSeconds <= 0) {
-            String winner = whiteTimeInSeconds <= 0 ? "Noirs" : "Blancs";
-            String styleClass = whiteTimeInSeconds <= 0 ? "check-label-black" : "check-label-white";
-            updateCheckLabel("Victoire " + winner, styleClass);
 
-            playButton.setText("Rejouer");
-            playButton.setDisable(false);
-            timeMenuButton.setDisable(false);
-            tournamentMenuButton.setDisable(false);
-
-            playButton.setOnAction(event -> resetGame());
-        }
-    }
 
 
 
@@ -369,12 +416,14 @@ public class HelloController {
                     if (isInCheck("blanc")) {
                         if (isCheckmate("blanc")) {
                             updateCheckLabel("Échec et mat ", "check-label-black");
+
                         } else {
                             updateCheckLabel("Échec", "check-label-black");
                         }
                     } else if (isInCheck("noir")) {
                         if (isCheckmate("noir")) {
                             updateCheckLabel("Échec et mat", "check-label-white");
+
                         } else {
                             updateCheckLabel("Échec", "check-label-white");
                         }
@@ -702,28 +751,5 @@ public class HelloController {
         redCells.clear();
     }
 
-    private void resetGame() {
-        // Réinitialiser les variables nécessaires
-        isWhiteTurn = true;
-        whiteTimeInSeconds = 600;
-        blackTimeInSeconds = 600;
-        whiteKingMoved = false;
-        blackKingMoved = false;
-        whiteRooksMoved = new boolean[]{false, false};
-        blackRooksMoved = new boolean[]{false, false};
 
-        // Réinitialiser les labels et boutons
-        turnLabel.setVisible(false);
-        checkLabel.setVisible(false);
-        playButton.setText("Jouer");
-        playButton.setDisable(true);
-        timeMenuButton.setDisable(true);
-        tournamentMenuButton.setDisable(true);
-
-        // Réinitialiser le plateau sans vider les pièces
-        setupEventHandlers();
-        updateTurnLabel();
-        startTimer();
-        turnLabel.setVisible(true);
-    }
 }
