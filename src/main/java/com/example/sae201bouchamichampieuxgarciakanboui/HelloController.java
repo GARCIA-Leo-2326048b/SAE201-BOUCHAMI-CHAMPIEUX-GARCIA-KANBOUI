@@ -15,6 +15,7 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class HelloController {
 
@@ -42,8 +43,8 @@ public class HelloController {
     @FXML
     private MenuItem oneVsAIItem;
 
-    @FXML
-    private MenuItem tournamentItem;
+    //@FXML
+   // private MenuItem tournamentItem;
 
     @FXML
     private GridPane chessBoard;
@@ -68,6 +69,8 @@ public class HelloController {
 
     @FXML
     private Button abandonNoir;
+
+    private String gameMode = "1 vs 1";
 
     private VBox[][] boardCells = new VBox[8][8];
     private String[][] board = new String[8][8];
@@ -99,8 +102,6 @@ public class HelloController {
     public void initialize() {
         if (dejaJoue){
             isWhiteTurn = true;
-            whiteTimeInSeconds = 600;
-            blackTimeInSeconds = 600;
             whiteKingMoved = false;
             blackKingMoved = false;
             whiteRooksMoved = new boolean[]{false, false};
@@ -236,7 +237,7 @@ public class HelloController {
     private void setupTournamentMenu() {
         oneVsOneItem.setOnAction(event -> handleTournamentMenuItemClick(oneVsOneItem.getText()));
         oneVsAIItem.setOnAction(event -> handleTournamentMenuItemClick(oneVsAIItem.getText()));
-        tournamentItem.setOnAction(event -> handleTournamentMenuItemClick(tournamentItem.getText()));
+        //tournamentItem.setOnAction(event -> handleTournamentMenuItemClick(tournamentItem.getText()));
     }
 
     private void handleMenuItemClick(String time) {
@@ -246,6 +247,7 @@ public class HelloController {
 
     private void handleTournamentMenuItemClick(String text) {
         tournamentMenuButton.setText(text);
+        gameMode = text;
     }
 
     // Méthode pour définir le temps de partie pour chaque joueur
@@ -302,11 +304,15 @@ public class HelloController {
                 blackTimeInSeconds--;
                 updateTimerDisplay();
                 checkTime();
+                if (gameMode.equals("1 vs IA") && !isWhiteTurn) {
+                    makeRandomMoveForAI();
+                }
             }));
             blackTimerTimeline.setCycleCount(Timeline.INDEFINITE);
             blackTimerTimeline.play();
         }
     }
+
 
 
     private void stopTimer() {
@@ -791,6 +797,31 @@ public class HelloController {
         }
     }
 
+
+    // Fonction pour l'IA de jouer un coup aléatoire
+    private void makeRandomMoveForAI() {
+        List<int[]> possibleMoves = new ArrayList<>();
+        for (int fromRow = 0; fromRow < 8; fromRow++) {
+            for (int fromCol = 0; fromCol < 8; fromCol++) {
+                if (board[fromRow][fromCol] != null && board[fromRow][fromCol].startsWith("noir")) {
+                    for (int toRow = 0; toRow < 8; toRow++) {
+                        for (int toCol = 0; toCol < 8; toCol++) {
+                            if (isValidMove(fromRow, fromCol, toRow, toCol)) {
+                                possibleMoves.add(new int[]{fromRow, fromCol, toRow, toCol});
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!possibleMoves.isEmpty()) {
+            Random random = new Random();
+            int[] move = possibleMoves.get(random.nextInt(possibleMoves.size()));
+            handleCellClick(move[0], move[1]);
+            handleCellClick(move[2], move[3]);
+        }
+    }
 
 
 

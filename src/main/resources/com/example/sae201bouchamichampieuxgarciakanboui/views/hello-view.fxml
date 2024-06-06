@@ -187,7 +187,7 @@
         <items>
           <MenuItem fx:id="oneVsOneItem" text="1 vs 1"/>
           <MenuItem fx:id="oneVsAIItem" text="1 vs IA"/>
-          <MenuItem fx:id="tournamentItem" text="Tournois"/>
+          <!--<MenuItem fx:id="tournamentItem" text="Tournois"/>   !-->
         </items>
       </MenuButton>
       <HBox>
