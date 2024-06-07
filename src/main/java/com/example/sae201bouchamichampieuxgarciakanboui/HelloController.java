@@ -56,10 +56,16 @@ public class HelloController {
     private Button playButton;
 
     @FXML
-    private Label labelHaut;
+    private Label tempsPartieHaut;
 
     @FXML
-    private Label labelBas;
+    private Label tempsPartieBas;
+
+    @FXML
+    private Label tempsToursHaut;
+
+    @FXML
+    private  Label tempsToursBas;
 
     @FXML
     private Label checkLabel;
@@ -133,7 +139,7 @@ public class HelloController {
                 timeMenuButton.setDisable(true);
                 playButton.setDisable(true);
                 tournamentMenuButton.setDisable(true);
-                startTimer();
+                startPartieTimer();
                 turnLabel.setVisible(true); // Rendre visible le label du tour
             });
 
@@ -154,7 +160,7 @@ public class HelloController {
                 timeMenuButton.setDisable(true);
                 playButton.setDisable(true);
                 tournamentMenuButton.setDisable(true);
-                startTimer();
+                startPartieTimer();
                 turnLabel.setVisible(true); // Rendre visible le label du tour
             });
             setupTournamentMenu();
@@ -167,6 +173,9 @@ public class HelloController {
 
     // Méthode pour gérer l'abandon
     private void handleAbandon(String player) {
+        if (selectedPiece != null) {
+            deselectPiece();
+        }
         String winner = player.equals("Blancs") ? "Noirs" : "Blancs";
         String styleClass = player.equals("Blancs") ? "check-label-black" : "check-label-white";
         updateCheckLabel("Victoire " + winner, styleClass);
@@ -175,7 +184,7 @@ public class HelloController {
     }
 
 
-    private void checkTime() {
+    private void checkPartieTime() {
         if (whiteTimeInSeconds <= 0 || blackTimeInSeconds <= 0) {
             if (selectedPiece != null) {
                 deselectPiece();
@@ -188,7 +197,85 @@ public class HelloController {
         }
     }
 
+    private void timeSetter() {
+        // Ajout des gestionnaires d'événements aux éléments du menu
+        twentyMinItem.setOnAction(event -> handleMenuItemClick(twentyMinItem.getText()));
+        tenMinItem.setOnAction(event -> handleMenuItemClick(tenMinItem.getText()));
+        fiveMinItem.setOnAction(event -> handleMenuItemClick(fiveMinItem.getText()));
+        oneMinItem.setOnAction(event -> handleMenuItemClick(oneMinItem.getText()));
 
+    }
+
+    // Méthode pour définir le temps de partie pour chaque joueur
+    private void setTimeForPlayers(String time) {
+        tempsPartieBas.setText(time);
+        tempsPartieHaut.setText(time);
+        switch (time){
+            case "10 min":
+                whiteTimeInSeconds = 10;
+                blackTimeInSeconds = 10;
+                break;
+            case "20 min":
+                whiteTimeInSeconds = 20;
+                blackTimeInSeconds = 20;
+                break;
+            case "5 min":
+                whiteTimeInSeconds = 300;
+                blackTimeInSeconds = 300;
+                break;
+            case "1 min":
+                whiteTimeInSeconds = 60;
+                blackTimeInSeconds = 60;
+                break;
+        }
+    }
+
+    private void startPartieTimer() {
+        stopTimer(); // Ajoute cette ligne pour arrêter le timer en cours
+
+        if (isWhiteTurn) {
+            whiteTimerTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                whiteTimeInSeconds--;
+                updateTimerDisplay();
+                checkPartieTime();
+            }));
+            whiteTimerTimeline.setCycleCount(Timeline.INDEFINITE);
+            whiteTimerTimeline.play();
+        } else {
+            blackTimerTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+                blackTimeInSeconds--;
+                updateTimerDisplay();
+                checkPartieTime();
+                if (gameMode.equals("1 vs IA") && !isWhiteTurn) {
+                    makeRandomMoveForAI();
+                }
+            }));
+            blackTimerTimeline.setCycleCount(Timeline.INDEFINITE);
+            blackTimerTimeline.play();
+        }
+    }
+
+
+
+    private void stopTimer() {
+        if (whiteTimerTimeline != null && whiteTimerTimeline.getStatus() == Timeline.Status.RUNNING) {
+            whiteTimerTimeline.stop();
+        }
+        if (blackTimerTimeline != null && blackTimerTimeline.getStatus() == Timeline.Status.RUNNING) {
+            blackTimerTimeline.stop();
+        }
+    }
+
+
+    private void updateTimerDisplay() {
+        int whiteMinutes = whiteTimeInSeconds / 60;
+        int whiteSeconds = whiteTimeInSeconds % 60;
+        tempsPartieBas.setText(String.format("%02d:%02d", whiteMinutes, whiteSeconds));
+
+        int blackMinutes = blackTimeInSeconds / 60;
+        int blackSeconds = blackTimeInSeconds % 60;
+        tempsPartieHaut.setText(String.format("%02d:%02d", blackMinutes, blackSeconds));
+    }
 
     private void deselectPiece() {
         if (selectedPiece != null) {
@@ -225,14 +312,7 @@ public class HelloController {
         redCells.clear();
     }
 
-    private void timeSetter() {
-        // Ajout des gestionnaires d'événements aux éléments du menu
-        twentyMinItem.setOnAction(event -> handleMenuItemClick(twentyMinItem.getText()));
-        tenMinItem.setOnAction(event -> handleMenuItemClick(tenMinItem.getText()));
-        fiveMinItem.setOnAction(event -> handleMenuItemClick(fiveMinItem.getText()));
-        oneMinItem.setOnAction(event -> handleMenuItemClick(oneMinItem.getText()));
 
-    }
 
     private void setupTournamentMenu() {
         oneVsOneItem.setOnAction(event -> handleTournamentMenuItemClick(oneVsOneItem.getText()));
@@ -250,34 +330,6 @@ public class HelloController {
         gameMode = text;
     }
 
-    // Méthode pour définir le temps de partie pour chaque joueur
-    private void setTimeForPlayers(String time) {
-        labelBas.setText(time);
-        labelHaut.setText(time);
-        switch (time){
-            case "10 min":
-                whiteTimeInSeconds = 10;
-                blackTimeInSeconds = 10;
-                break;
-            case "20 min":
-                whiteTimeInSeconds = 20;
-                blackTimeInSeconds = 20;
-                break;
-            case "5 min":
-                whiteTimeInSeconds = 300;
-                blackTimeInSeconds = 300;
-                break;
-            case "1 min":
-                whiteTimeInSeconds = 60;
-                blackTimeInSeconds = 60;
-                break;
-        }
-    }
-
-
-
-
-
     // Méthode pour nettoyer le plateau
     private void clearBoard() {
         for (int row = 0; row < 8; row++) {
@@ -288,52 +340,7 @@ public class HelloController {
         }
     }
 
-    private void startTimer() {
-        stopTimer(); // Ajoute cette ligne pour arrêter le timer en cours
 
-        if (isWhiteTurn) {
-            whiteTimerTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-                whiteTimeInSeconds--;
-                updateTimerDisplay();
-                checkTime();
-            }));
-            whiteTimerTimeline.setCycleCount(Timeline.INDEFINITE);
-            whiteTimerTimeline.play();
-        } else {
-            blackTimerTimeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-                blackTimeInSeconds--;
-                updateTimerDisplay();
-                checkTime();
-                if (gameMode.equals("1 vs IA") && !isWhiteTurn) {
-                    makeRandomMoveForAI();
-                }
-            }));
-            blackTimerTimeline.setCycleCount(Timeline.INDEFINITE);
-            blackTimerTimeline.play();
-        }
-    }
-
-
-
-    private void stopTimer() {
-        if (whiteTimerTimeline != null && whiteTimerTimeline.getStatus() == Timeline.Status.RUNNING) {
-            whiteTimerTimeline.stop();
-        }
-        if (blackTimerTimeline != null && blackTimerTimeline.getStatus() == Timeline.Status.RUNNING) {
-            blackTimerTimeline.stop();
-        }
-    }
-
-
-    private void updateTimerDisplay() {
-        int whiteMinutes = whiteTimeInSeconds / 60;
-        int whiteSeconds = whiteTimeInSeconds % 60;
-        labelBas.setText(String.format("%02d:%02d", whiteMinutes, whiteSeconds));
-
-        int blackMinutes = blackTimeInSeconds / 60;
-        int blackSeconds = blackTimeInSeconds % 60;
-        labelHaut.setText(String.format("%02d:%02d", blackMinutes, blackSeconds));
-    }
 
 
     private void initializeBoard() {
@@ -550,7 +557,7 @@ public class HelloController {
                 playMoveWithDelay();
             }
         }
-        startTimer(); // Ajoute cette ligne pour démarrer le timer du joueur suivant
+        startPartieTimer(); // Ajoute cette ligne pour démarrer le timer du joueur suivant
     }
 
 

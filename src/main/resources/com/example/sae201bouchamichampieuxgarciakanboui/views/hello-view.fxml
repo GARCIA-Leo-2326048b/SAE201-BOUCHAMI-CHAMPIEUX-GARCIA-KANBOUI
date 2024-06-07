@@ -26,8 +26,10 @@
         <RowConstraints prefHeight="30"/>
       </rowConstraints>
       <Label text="Adversaire" styleClass="player-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-      <Label fx:id="labelHaut" text="" styleClass="time-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-
+      <HBox GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="30" alignment="CENTER_LEFT">
+        <Label fx:id="tempsToursHaut" text="dgvfddf" styleClass="player-label" />
+        <Label fx:id="tempsPartieHaut" text="" styleClass="time-label" />
+      </HBox>
     </GridPane>
   </top>
   <center>
@@ -174,14 +176,28 @@
       <Button fx:id="abandonNoir" text="Abandonner" styleClass="abandonNoir" visible="false"/>
       <Label fx:id="checkLabel" text="" styleClass="check-label" visible="false" />
       <Label fx:id="turnLabel" text="Tour: Blancs" styleClass="turn-label" visible="false"/>
-      <MenuButton fx:id="timeMenuButton" text="10 min" styleClass="menu-button">
-        <items>
-          <MenuItem fx:id="twentyMinItem" text="20 min"/>
-          <MenuItem fx:id="tenMinItem" text="10 min"/>
-          <MenuItem fx:id="fiveMinItem" text="5 min"/>
-          <MenuItem fx:id="oneMinItem" text="1 min"/>
-        </items>
-      </MenuButton>
+      <VBox spacing="5">
+        <Label text="Temps de la partie:" styleClass="time-label" />
+        <MenuButton fx:id="timeMenuButton" text="10 min" styleClass="menu-button">
+          <items>
+            <MenuItem fx:id="twentyMinItem" text="20 min"/>
+            <MenuItem fx:id="tenMinItem" text="10 min"/>
+            <MenuItem fx:id="fiveMinItem" text="5 min"/>
+            <MenuItem fx:id="oneMinItem" text="1 min"/>
+          </items>
+        </MenuButton>
+      </VBox>
+      <VBox spacing="5">
+        <Label text="Temps des tours:" styleClass="time-label" />
+        <MenuButton fx:id="turnTimeMenuButton" text="10 min" styleClass="menu-button">
+          <items>
+            <MenuItem fx:id="fiveSecItem" text="5 sec"/>
+            <MenuItem fx:id="tenSecItem" text="10 sec"/>
+            <MenuItem fx:id="twentySecItem" text="20 sec"/>
+            <MenuItem fx:id="thirtySecItem" text="30 sec"/>
+          </items>
+        </MenuButton>
+      </VBox>
       <Button fx:id="playButton" text="Jouer" styleClass="play-button"/>
       <MenuButton fx:id="tournamentMenuButton" text="1 vs 1" styleClass="tournament-button">
         <items>
@@ -213,7 +229,10 @@
         <RowConstraints prefHeight="30"/>
       </rowConstraints>
       <Label text="Guest2638305585 (400)" styleClass="player-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-      <Label fx:id="labelBas" text="10 min" styleClass="time-label" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+      <HBox GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="30" alignment="CENTER_LEFT">
+        <Label fx:id="tempsToursBas" text="dgvfddf" styleClass="player-label" />
+        <Label fx:id="tempsPartieBas" text="" styleClass="time-label" />
+      </HBox>
     </GridPane>
   </bottom>
 </BorderPane>
