@@ -1,21 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-
-<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sae201bouchamichampieuxgarciakanboui.HelloController" stylesheets="/chessCSS.css">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sae201bouchamichampieuxgarciakanboui.ChessController" stylesheets="/chessCSS.css">
   <top>
     <GridPane alignment="CENTER" styleClass="top-bar">
       <columnConstraints>
@@ -27,8 +14,8 @@
       </rowConstraints>
       <Label text="Adversaire" styleClass="player-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
       <HBox GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="30" alignment="CENTER_LEFT">
-        <Label fx:id="tempsToursHaut" text="dgvfddf" styleClass="player-label" />
-        <Label fx:id="tempsPartieHaut" text="" styleClass="time-label" />
+<!--        <Label text="10 sec" styleClass="player-label" />-->
+        <Label fx:id="tempsPartieHaut" text="10 min" styleClass="time-label" />
       </HBox>
     </GridPane>
   </top>
@@ -178,7 +165,7 @@
       <Label fx:id="turnLabel" text="Tour: Blancs" styleClass="turn-label" visible="false"/>
       <VBox spacing="5">
         <Label text="Temps de la partie:" styleClass="time-label" />
-        <MenuButton fx:id="timeMenuButton" text="10 min" styleClass="menu-button">
+        <MenuButton fx:id="partieTimeMenuButton" text="10 min" styleClass="menu-button">
           <items>
             <MenuItem fx:id="twentyMinItem" text="20 min"/>
             <MenuItem fx:id="tenMinItem" text="10 min"/>
@@ -187,17 +174,17 @@
           </items>
         </MenuButton>
       </VBox>
-      <VBox spacing="5">
-        <Label text="Temps des tours:" styleClass="time-label" />
-        <MenuButton fx:id="turnTimeMenuButton" text="10 min" styleClass="menu-button">
-          <items>
-            <MenuItem fx:id="fiveSecItem" text="5 sec"/>
-            <MenuItem fx:id="tenSecItem" text="10 sec"/>
-            <MenuItem fx:id="twentySecItem" text="20 sec"/>
-            <MenuItem fx:id="thirtySecItem" text="30 sec"/>
-          </items>
-        </MenuButton>
-      </VBox>
+<!--      <VBox spacing="5">-->
+<!--        <Label text="Temps des tours:" styleClass="time-label" />-->
+<!--        <MenuButton  text="10 sec" styleClass="menu-button">-->
+<!--          <items>-->
+<!--            <MenuItem  text="5 sec"/>-->
+<!--            <MenuItem  text="10 sec"/>-->
+<!--            <MenuItem  text="20 sec"/>-->
+<!--            <MenuItem  text="30 sec"/>-->
+<!--          </items>-->
+<!--        </MenuButton>-->
+<!--      </VBox>-->
       <Button fx:id="playButton" text="Jouer" styleClass="play-button"/>
       <MenuButton fx:id="tournamentMenuButton" text="1 vs 1" styleClass="tournament-button">
         <items>
@@ -230,8 +217,8 @@
       </rowConstraints>
       <Label text="Guest2638305585 (400)" styleClass="player-label" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
       <HBox GridPane.columnIndex="1" GridPane.rowIndex="0" spacing="30" alignment="CENTER_LEFT">
-        <Label fx:id="tempsToursBas" text="dgvfddf" styleClass="player-label" />
-        <Label fx:id="tempsPartieBas" text="" styleClass="time-label" />
+<!--        <Label text="10 sec" styleClass="player-label" />-->
+        <Label fx:id="tempsPartieBas" text="10 min" styleClass="time-label" />
       </HBox>
     </GridPane>
   </bottom>
